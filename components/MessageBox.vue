@@ -1,11 +1,9 @@
 <template>
-  <div>
-    <body class="static">
-      <div class="flex flex-col items-center justify-center h-screen">
-        <MessageBox/>
-        <InputBox/>
-      </div>  
-    </body>
+    <div
+      class="grid grid-rows-3 grid-cols-2 w-5/6 h-5/6 border-8 rounded-lg"
+      id="message-box"
+    >
+      <Message :Message="Message" />
   </div>
 </template>
 
@@ -13,12 +11,11 @@
 import Vue from "vue";
 import Message from "~/components/Message.vue";
 import axios from "axios";
-import MessageBox from "~/components/MessageBox.vue";
-import InputBox from "~/components/InputBox.vue";
 
 export default Vue.extend({
-  name: "IndexPage",
-  components: { Message, MessageBox, InputBox },
+  name: "MessageBox",
+  components: { Message },
+  props: ["Message"],
   data() {
     return {
       message: "",
