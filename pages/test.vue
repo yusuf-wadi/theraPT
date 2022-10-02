@@ -84,9 +84,10 @@ export default Vue.extend({
         temperature: temp,
         frequency_penalty: freq,
         presence_penalty: pres,
+        stop: [`${this.username}:`,"Calypso:", "CALYPSO:"]
       });
 
-      return response.data.choices[0].text;
+      return response.data.choices[0].text.replace(/(\r\n|\n|\r)/gm, "");
 
     },
 
@@ -108,7 +109,7 @@ export default Vue.extend({
     async optConvo(context = []) {
       let contextString = context.join("\n");
       let summary = "";
-      if (context.length > 1) {
+      if (context.length > 2) {
         let prompt = `${contextString} \n Detailed summary about conversation between the user ${this.username} and Calypso: `;
         summary = await this.gpt(
           (prompt),
@@ -118,11 +119,8 @@ export default Vue.extend({
           (256)
         );
       }
-      console.log(contextString);
-      console.log(context);
-      console.log(curUser);
-      console.log(summary);
-      await this.cntPrompt(context, summary);
+      
+      await this.cntPrompt(context, summary.trim());
     },
 
     async cntPrompt(curconv = [], summary) {
@@ -130,17 +128,16 @@ export default Vue.extend({
       if (curconv.length > 2) {
         let lastlines = curconv.slice(-2).join('\n');
         lastStrings = lastlines;  
-        console.log(lastStrings);
       }else{
         lastStrings = curconv.join('\n');
       }
 
-      let ctxprompt = `The woman named Calypso named is a soft-spoken, compassionate, and intelligent therapist. Calypso responds with lexically aligned and relevant responses.\n\nCONTEXT:\n${summary}\n${lastStrings}\nCALYPSO:`;
-
+      let ctxprompt = `The woman named Calypso named is a soft-spoken, compassionate, and intelligent therapist. Calypso responds with lexically aligned and relevant responses.\n\nCONTEXT:${summary}\n\n${lastStrings}\nCalypso:`;
+      console.log(ctxprompt);
       let response = await this.gpt(
         ctxprompt,
-        (0.9),
-        (1.5),
+        (1),
+        (2),
         (2),
         (256),
       );
