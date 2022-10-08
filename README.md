@@ -21,7 +21,8 @@ For detailed explanation on how things work, check out the [documentation](https
 
 ## important
 
-open /test for working build of app
+- open /test for working build of app
+- ```import OPENAI_API_KEY from '~/text/key.txt'```, add this path to root, and fill in key.txt with your<br> openai api key
 
 ## Special Directories
 
