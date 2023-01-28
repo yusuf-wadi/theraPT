@@ -1,5 +1,5 @@
 # theraPT
-
+### current run: alpha v0.0.1 [calypsoai.net](http://calypsoai.net/calypso/)
 ## Build Setup
 
 ```bash
